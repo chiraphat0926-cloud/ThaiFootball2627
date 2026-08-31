@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a52">
+<title>ไทยฟุตบอล 26/27</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f3f6fb;
+  color:#172033;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#071a52;
+  color:white;
+  padding:14px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 18px #0003;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+.logo-ball{font-size:35px}
+.logo h1{font-size:20px;margin:0}
+.logo small{color:#ffcc29;font-weight:bold}
+
+.nav{
+  display:flex;
+  gap:5px;
+}
+.nav button{
+  border:0;
+  background:transparent;
+  color:#dbe5ff;
+  padding:9px 12px;
+  border-radius:9px;
+}
+.nav button:hover,.nav button.active{
+  background:#183476;
+  color:white;
+}
+
+.container{
+  width:min(1120px,94%);
+  margin:25px auto 70px;
+}
+
+.hero{
+  min-height:390px;
+  border-radius:28px;
+  padding:40px;
+  color:white;
+  background:
+    radial-gradient(circle at 85% 20%,#3156b5,transparent 28%),
+    linear-gradient(120deg,#071a52,#123c9a);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  overflow:hidden;
+}
+.hero h2{
+  font-size:clamp(38px,7vw,70px);
+  line-height:1.05;
+  margin:8px 0 18px;
+}
+.hero p{
+  max-width:560px;
+  color:#d9e4ff;
+  line-height:1.7;
+}
+.hero-ball{
+  font-size:180px;
+  filter:drop-shadow(0 20px 20px #0005);
+}
+.tag{
+  color:#ffcc29;
+  font-weight:900;
+  letter-spacing:2px;
+}
+.red{color:#e21b2d}
+
+.primary{
+  border:0;
+  border-radius:12px;
+  padding:13px 22px;
+  background:#e21b2d;
+  color:white;
+  font-weight:bold;
+}
+
+.title{
+  margin:35px 0 16px;
+  font-size:26px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 5px 20px #14224b12;
+}
+
+.league{
+  color:white;
+  min-height:145px;
+  border:0;
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+}
+.league:after{
+  content:"⚽";
+  position:absolute;
+  right:-10px;
+  bottom:-35px;
+  font-size:100px;
+  opacity:.14;
+}
+.t1{background:#e21b2d}
+.t2{background:#1464d2}
+.t3{background:#159447}
+
+.league small,.league strong,.league span{
+  display:block;
+}
+.league strong{
+  font-size:25px;
+  margin:8px 0;
+}
+
+.news{
+  overflow:hidden;
+  padding:0;
+}
+.news-img{
+  height:130px;
+  display:grid;
+  place-items:center;
+  font-size:55px;
+  background:linear-gradient(135deg,#071a52,#e21b2d);
+}
+.news-body{padding:18px}
+.news-body h3{margin:8px 0}
+.news-body small{color:#667085}
+
+.page-title{
+  margin:15px 0 25px;
+}
+.page-title h2{
+  margin:0;
+  font-size:36px;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin-bottom:18px;
+}
+.tabs button{
+  border:1px solid #d9dfeb;
+  background:white;
+  padding:11px 17px;
+  border-radius:10px;
+  white-space:nowrap;
+}
+.tabs button.active{
+  background:#071a52;
+  color:white;
+}
+
+.panel{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 5px 20px #14224b10;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:18px 0;
+}
+.stat{
+  background:#f4f6fa;
+  border-radius:13px;
+  padding:17px;
+}
+.stat strong,.stat span{display:block}
+.stat span{
+  color:#667085;
+  margin-top:5px;
+  font-size:14px;
+}
+
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:13px 10px;
+  border-bottom:1px solid #edf0f5;
+  text-align:left;
+  white-space:nowrap;
+}
+th{
+  color:#667085;
+  font-size:13px;
+}
+
+.match{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:17px;
+  border-bottom:1px solid #edf0f5;
+}
+.match:last-child{border-bottom:0}
+.team{
+  width:40%;
+}
+.team.away{text-align:right}
+.vs{
+  font-weight:900;
+  color:#e21b2d;
+}
+
+.search{
+  width:100%;
+  border:1px solid #d6ddea;
+  background:white;
+  border-radius:13px;
+  padding:15px;
+  margin-bottom:18px;
+  outline:none;
+}
+.search:focus{border-color:#3156b5}
+
+.player{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.avatar{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#edf3ff;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+}
+.player h3{margin:0 0 4px}
+.player p{
+  margin:0;
+  color:#667085;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:99px;
+  background:#eef2ff;
+  color:#284ca1;
+  font-size:12px;
+  font-weight:bold;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  background:#071a52;
+  color:white;
+}
+footer small{
+  display:block;
+  color:#aebde4;
+  margin-top:5px;
+}
+
+.hidden{display:none!important}
+
+@media(max-width:750px){
+  .header{
+    flex-direction:column;
+    gap:10px;
+  }
+  .nav{
+    width:100%;
+    justify-content:space-between;
+  }
+  .nav button{
+    font-size:12px;
+    padding:8px 7px;
+  }
+  .container{
+    width:94%;
+  }
+  .hero{
+    padding:28px;
+    min-height:420px;
+  }
+  .hero-ball{
+    position:absolute;
+    right:-20px;
+    opacity:.12;
+    font-size:240px;
+  }
+  .cards,.stats{
+    grid-template-columns:1fr;
+  }
+  .page-title h2{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo" onclick="showPage('home')" role="button" tabindex="0" aria-label="ไปยังหน้าหลัก">
+    <div class="logo-ball">⚽</div>
+    <div>
+      <h1>ไทยฟุตบอล</h1>
+      <small>26/27</small>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="เมนูหลัก">
+    <button id="nav-home" onclick="showPage('home')">หน้าหลัก</button>
+    <button id="nav-league" onclick="showPage('league')">ลีก</button>
+    <button id="nav-fixture" onclick="showPage('fixture')">โปรแกรม</button>
+    <button id="nav-player" onclick="showPage('player')">นักเตะ</button>
+    <button id="nav-news" onclick="showPage('news')">ข่าว</button>
+  </nav>
+</header>
+
+
+<main class="container">
+
+<!-- HOME -->
+<section id="page-home">
+
+  <div class="hero">
+    <div>
+      <div class="tag">THAI FOOTBALL 2026/27</div>
+      <h2>ฟุตบอลไทย<br>ครบทุกลีก</h2>
+      <p>
+        ศูนย์รวมข้อมูลไทยลีก 1, ไทยลีก 2, ไทยลีก 3
+        โปรแกรมการแข่งขัน ตารางคะแนน ผลการแข่งขัน
+        ข่าวฟุตบอลไทย และนักเตะไทย
+      </p>
+      <button class="primary" onclick="showPage('league')">
+        ดูข้อมูลลีก
+      </button>
+    </div>
+
+    <div class="hero-ball" aria-hidden="true">⚽</div>
+  </div>
+
+  <h2 class="title">ลีกฟุตบอลไทย 🇹🇭</h2>
+
+  <div class="cards">
+
+    <button class="card league t1" onclick="openLeague('t1')">
+      <span>THAI LEAGUE 1</span>
+      <strong>ไทยลีก 1</strong>
+      <small>ลีกสูงสุดของประเทศไทย</small>
+    </button>
+
+    <button class="card league t2" onclick="openLeague('t2')">
+      <span>THAI LEAGUE 2</span>
+      <strong>ไทยลีก 2</strong>
+      <small>ลีกรองระดับประเทศ</small>
+    </button>
+
+    <button class="card league t3" onclick="openLeague('t3')">
+      <span>THAI LEAGUE 3</span>
+      <strong>ไทยลีก 3</strong>
+      <small>ลีกระดับภูมิภาค</small>
+    </button>
+
+  </div>
+
+  <h2 class="title">🔥 โปรแกรมนัดเปิดสนาม T1</h2>
+
+  <div class="panel">
+    <div class="match">
+      <div class="team">
+        <b>ปัตตานี เอฟซี</b>
+        <small>4 ก.ย. 2569 · 19:00</small>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team away">
+        <b>บีจี ปทุม ยูไนเต็ด</b>
+      </div>
+    </div>
+
+    <div class="match">
+      <div class="team">
+        <b>สิงห์ เชียงราย ยูไนเต็ด</b>
+        <small>5 ก.ย. 2569 · 18:00</small>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team away">
+        <b>ชลบุรี เอฟซี</b>
+      </div>
+    </div>
+
+    <div class="match">
+      <div class="team">
+        <b>สุโขทัย เอฟซี</b>
+        <small>6 ก.ย. 2569 · 19:00</small>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team away">
+        <b>บุรีรัมย์ ยูไนเต็ด</b>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="title">📰 ข่าวล่าสุด</h2>
+
+  <div class="cards">
+    <article class="card news">
+      <div class="news-img">🇹🇭</div>
+      <div class="news-body">
+        <span class="badge">ไทยลีก</span>
+        <h3>ไทยลีก 2026/27 เตรียมเปิดฤดูกาล</h3>
+        <small>อัปเดตล่าสุด</small>
+      </div>
+    </article>
+
+    <article class="card news">
+      <div class="news-img">📅</div>
+      <div class="news-body">
+        <span class="badge">โปรแกรม</span>
+        <h3>เปิดโปรแกรมนัดแรกไทยลีก 1</h3>
+        <small>ฤดูกาล 2026/27</small>
+      </div>
+    </article>
+
+    <article class="card news">
+      <div class="news-img">⚽</div>
+      <div class="news-body">
+        <span class="badge">นักเตะ</span>
+        <h3>รวมข้อมูลนักเตะไทย</h3>
+        <small>ติดตามข้อมูลในแอป</small>
+      </div>
+    </article>
+  </div>
+
+</section>
+
+
+<!-- LEAGUE -->
+<section id="page-league" class="hidden">
+
+  <div class="page-title">
+    <div class="tag red">THAI LEAGUE</div>
+    <h2>ข้อมูลลีก 2026/27</h2>
+  </div>
+
+  <div class="tabs">
+    <button id="tab-t1" onclick="openLeague('t1')">ไทยลีก 1</button>
+    <button id="tab-t2" onclick="openLeague('t2')">ไทยลีก 2</button>
+    <button id="tab-t3" onclick="openLeague('t3')">ไทยลีก 3</button>
+  </div>
+
+  <div class="panel">
+
+    <h2 id="league-name">ไทยลีก 1</h2>
+    <p id="league-description">
+      BYD SEALION 6 LEAGUE 1 · 2026/27
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <strong>📅 โปรแกรม</strong>
+        <span>ดูการแข่งขัน</span>
+      </div>
+      <div class="stat">
+        <strong>⚽ ผลการแข่งขัน</strong>
+        <span>รอการแข่งขัน</span>
+      </div>
+      <div class="stat">
+        <strong>📊 ตารางคะแนน</strong>
+        <span>อัปเดตหลังแข่ง</span>
+      </div>
+    </div>
+
+    <h3>📊 ตารางคะแนน</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ทีม</th>
+            <th>แข่ง</th>
+            <th>ชนะ</th>
+            <th>เสมอ</th>
+            <th>แพ้</th>
+            <th>ได้</th>
+            <th>เสีย</th>
+            <th>แต้ม</th>
+          </tr>
+        </thead>
+        <tbody id="standings"></tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FIXTURES -->
+<section id="page-fixture" class="hidden">
+
+  <div class="page-title">
+    <div class="tag red">FIXTURES</div>
+    <h2>โปรแกรมการแข่งขัน</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="active">ไทยลีก 1</button>
+    <button>ไทยลีก 2</button>
+    <button>ไทยลีก 3</button>
+  </div>
+
+  <div class="panel">
+
+    <h2>Matchday 1</h2>
+    <p>ไทยลีก 1 · ฤดูกาล 2026/27</p>
+
+    <div id="fixtures"></div>
+
+  </div>
+
+</section>
+
+
+<!-- PLAYERS -->
+<section id="page-player" class="hidden">
+
+  <div class="page-title">
+    <div class="tag red">THAI PLAYERS</div>
+    <h2>นักเตะไทย 🇹🇭</h2>
+  </div>
+
+  <input
+    id="playerSearch"
+    class="search"
+    placeholder="🔎 ค้นหาชื่อนักเตะหรือสโมสร..."
+    oninput="searchPlayers()"
+  >
+
+  <div id="players" class="cards"></div>
+
+</section>
+
+
+<!-- NEWS -->
+<section id="page-news" class="hidden">
+
+  <div class="page-title">
+    <div class="tag red">LATEST NEWS</div>
+    <h2>ข่าวฟุตบอลไทย 📰</h2>
+  </div>
+
+  <div class="cards">
+
+    <article class="card news">
+      <div class="news-img">🇹🇭</div>
+      <div class="news-body">
+        <span class="badge">ไทยลีก</span>
+        <h3>ฤดูกาลไทยลีก 2026/27</h3>
+        <p>ติดตามความเคลื่อนไหวฟุตบอลไทยในฤดูกาลใหม่</p>
+      </div>
+    </article>
+
+    <article class="card news">
+      <div class="news-img">🏆</div>
+      <div class="news-body">
+        <span class="badge">ลีก</span>
+        <h3>รวมข้อมูล T1 T2 T3</h3>
+        <p>ระบบรองรับข้อมูลฟุตบอลไทยทั้งสามระดับ</p>
+      </div>
+    </article>
+
+    <article class="card news">
+      <div class="news-img">⚽</div>
+      <div class="news-body">
+        <span class="badge">นักเตะ</span>
+        <h3>นักเตะไทย</h3>
+        <p>ค้นหานักเตะตามชื่อ สโมสร และตำแหน่ง</p>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+  <b>ไทยฟุตบอล 26/27 ⚽🇹🇭</b>
+  <small>Thai Football Information App</small>
+</footer>
+
+
+<script>
+
+/* =========================
+   DATA
+   Note: standings arrays follow:
+   [ name, played, wins, draws, losses, goalsFor, goalsAgainst, points ]
+========================= */
+
+const standingsData = {
+
+t1:[
+["ปัตตานี เอฟซี",0,0,0,0,0,0,0],
+["ราษีไศล ยูไนเต็ด",0,0,0,0,0,0,0],
+["การท่าเรือ เอฟซี",0,0,0,0,0,0,0],
+["บุรีรัมย์ ยูไนเต็ด",0,0,0,0,0,0,0],
+["บีจี ปทุม ยูไนเต็ด",0,0,0,0,0,0,0],
+["สิงห์ เชียงราย ยูไนเต็ด",0,0,0,0,0,0,0],
+["ชลบุรี เอฟซี",0,0,0,0,0,0,0],
+["ทรู แบงค็อก ยูไนเต็ด",0,0,0,0,0,0,0],
+["ศรีสะเกษ ยูไนเต็ด",0,0,0,0,0,0,0],
+["ระยอง เอฟซี",0,0,0,0,0,0,0],
+["พีที ประจวบ เอฟซี",0,0,0,0,0,0,0],
+["อยุธยา ยูไนเต็ด",0,0,0,0,0,0,0],
+["ราชบุรี เอฟซี",0,0,0,0,0,0,0],
+["ลำพูน วอริเออร์",0,0,0,0,0,0,0],
+["อุทัยธานี เอฟซี",0,0,0,0,0,0,0],
+["สุโขทัย เอฟซี",0,0,0,0,0,0,0]
+],
+
+t2:[
+["เมืองเลย ยูไนเต็ด",0,0,0,0,0,0,0],
+["นครปฐม ยูไนเต็ด",0,0,0,0,0,0,0],
+["ขอนแก่น ยูไนเต็ด",0,0,0,0,0,0,0],
+["ศรีสะเกษ เอฟซี",0,0,0,0,0,0,0],
+["ทีม T2",0,0,0,0,0,0,0],
+["ทีม T2",0,0,0,0,0,0,0]
+],
+
+t3:[
+["ทีม T3 โซนกลาง",0,0,0,0,0,0,0],
+["ทีม T3 โซนตะวันออก",0,0,0,0,0,0,0],
+["ทีม T3 โซนตะวันตก",0,0,0,0,0,0,0]
+]
+
+};
+
+const fixturesData=[
+
+["ศุกร์ 4 ก.ย. 2569","19:00","ปัตตานี เอฟซี","บีจี ปทุม ยูไนเต็ด"],
+
+["เสาร์ 5 ก.ย. 2569","18:00","สิงห์ เชียงราย ยูไนเต็ด","ชลบุรี เอฟซี"],
+
+["เสาร์ 5 ก.ย. 2569","18:30","ทรู แบงค็อก ยูไนเต็ด","ศรีสะเกษ ยูไนเต็ด"],
+
+["เสาร์ 5 ก.ย. 2569","19:00","ราษีไศล ยูไนเต็ด","การท่าเรือ เอฟซี"],
+
+["เสาร์ 5 ก.ย. 2569","19:30","ระยอง เอฟซี","พีที ประจวบ เอฟซี"],
+
+["อาทิตย์ 6 ก.ย. 2569","18:00","อยุธยา ยูไนเต็ด","ราชบุรี เอฟซี"],
+
+["อาทิตย์ 6 ก.ย. 2569","18:30","ลำพูน วอริเออร์","อุทัยธานี เอฟซี"],
+
+["อาทิตย์ 6 ก.ย. 2569","19:00","สุโขทัย เอฟซี","บุรีรัมย์ ยูไนเต็ด"]
+
+];
+
+const playersData=[
+
+{
+name:"นักเตะไทย",
+position:"กองกลาง",
+club:"ข้อมูลกำลังอัปเดต",
+number:"-"
+},
+
+{
+name:"นักเตะไทย",
+position:"กองหน้า",
+club:"ข้อมูลกำลังอัปเดต",
+number:"-"
+},
+
+{
+name:"นักเตะไทย",
+position:"กองหลัง",
+club:"ข้อมูลกำลังอัปเดต",
+number:"-"
+}
+
+];
+
+
+/* =========================
+   PAGE SYSTEM
+========================= */
+
+function showPage(page){
+
+  document.querySelectorAll('[id^="page-"]').forEach(x=>{
+    x.classList.add("hidden");
+  });
+
+  const target = document.getElementById("page-"+page);
+  if (!target) {
+    // ป้องกัน error ถ้า id ผิดหรือไม่พบ
+    console.warn("showPage: page not found:", page);
+    return;
+  }
+  target.classList.remove("hidden");
+
+  // nav active + aria-current
+  document.querySelectorAll(".nav button").forEach(x=>{
+    x.classList.remove("active");
+    x.removeAttribute("aria-current");
+  });
+
+  const nav = document.getElementById("nav-"+page);
+  if (nav) {
+    nav.classList.add("active");
+    nav.setAttribute("aria-current","page");
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   LEAGUE
+========================= */
+
+function openLeague(type){
+
+  showPage("league");
+
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+
+  const tab=document.getElementById("tab-"+type);
+  if (tab) tab.classList.add("active");
+
+  const names={
+    t1:"ไทยลีก 1",
+    t2:"ไทยลีก 2",
+    t3:"ไทยลีก 3"
+  };
+
+  const descriptions={
+    t1:"BYD SEALION 6 LEAGUE 1 · 2026/27",
+    t2:"BYD SEAL 5 LEAGUE 2 · 2026/27",
+    t3:"BYD DOLPHIN LEAGUE 3 · 2026/27"
+  };
+
+  document.getElementById("league-name").innerText = names[type] || "ลีก";
+  document.getElementById("league-description").innerText = descriptions[type] || "";
+
+  renderStandings(type);
+
+}
+
+
+/* =========================
+   STANDINGS
+   Using mapping:
+   [ name, played, wins, draws, losses, goalsFor, goalsAgainst, points ]
+========================= */
+
+function renderStandings(type){
+
+  const body=document.getElementById("standings");
+  if (!body) return;
+
+  body.innerHTML="";
+
+  const list = standingsData[type] || [];
+
+  list.forEach((team,index)=>{
+
+    const row=document.createElement("tr");
+
+    // Defensive: ensure indices exist
+    const played = team[1] ?? 0;
+    const wins = team[2] ?? 0;
+    const draws = team[3] ?? 0;
+    const losses = team[4] ?? 0;
+    const gf = team[5] ?? 0;
+    const ga = team[6] ?? 0;
+    const points = team[7] ?? 0;
+
+    row.innerHTML=`
+      <td>${index+1}</td>
+      <td><strong>${team[0] ?? ' - '}</strong></td>
+      <td>${played}</td>
+      <td>${wins}</td>
+      <td>${draws}</td>
+      <td>${losses}</td>
+      <td>${gf}</td>
+      <td>${ga}</td>
+      <td><strong>${points}</strong></td>
+    `;
+
+    body.appendChild(row);
+
+  });
+
+}
+
+
+/* =========================
+   FIXTURES
+========================= */
+
+function renderFixtures(){
+
+  const box=document.getElementById("fixtures");
+  if (!box) return;
+
+  box.innerHTML="";
+
+  fixturesData.forEach(game=>{
+
+    const div=document.createElement("div");
+    div.className="match";
+
+    div.innerHTML=`
+      <div class="team">
+        <strong>${game[2]}</strong>
+        <small>${game[0]} · ${game[1]}</small>
+      </div>
+
+      <div class="vs">VS</div>
+
+      <div class="team away">
+        <strong>${game[3]}</strong>
+      </div>
+    `;
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================
+   PLAYERS
+========================= */
+
+function renderPlayers(list = playersData){
+
+  const box=document.getElementById("players");
+  if (!box) return;
+
+  box.innerHTML="";
+
+  if (!list || list.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "card";
+    empty.innerHTML = `<p>ไม่พบนักเตะที่ตรงกับการค้นหา</p>`;
+    box.appendChild(empty);
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+
+  list.forEach(player=>{
+
+    const div=document.createElement("article");
+    div.className="card player";
+
+    div.innerHTML=`
+      <div class="avatar" aria-hidden="true">🇹🇭</div>
+
+      <div>
+        <h3>${player.name}</h3>
+        <p>${player.position}</p>
+        <small>${player.club}</small>
+      </div>
+    `;
+
+    frag.appendChild(div);
+
+  });
+
+  box.appendChild(frag);
+
+}
+
+function searchPlayers(){
+
+  const input = document.getElementById("playerSearch");
+  if (!input) return;
+
+  const query = input.value.trim().toLowerCase();
+
+  if (query === "") {
+    renderPlayers(playersData);
+    return;
+  }
+
+  const result = playersData.filter(player=>
+    (player.name+" "+player.position+" "+player.club).toLowerCase().includes(query)
+  );
+
+  renderPlayers(result);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderFixtures();
+renderPlayers();
+openLeague("t1");
+showPage("home");
+
+</script>
+
+</body>
+</html>
